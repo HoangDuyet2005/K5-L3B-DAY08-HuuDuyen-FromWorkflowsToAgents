@@ -5,7 +5,7 @@
 - Tên nhóm: HuuDuyen
 - Lớp: L3B
 - Repo nhóm: `K5-L3B-DAY08-HuuDuyen-FromWorkflowsToAgents` (xem [SUBMISSION.md](SUBMISSION.md))
-- URL repo, nhánh nộp, commit chốt: https://github.com/HoangDuyet2005/K5-L3B-DAY08-HuuDuyen-FromWorkflowsToAgents, nhánh `main`, commit chốt điền ở CP5
+- URL repo, nhánh nộp, commit chốt: https://github.com/HoangDuyet2005/K5-L3B-DAY08-HuuDuyen-FromWorkflowsToAgents, nhánh `main`, commit chốt `9fe0f9a`
 
 ## Thành viên
 
