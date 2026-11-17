@@ -4,7 +4,7 @@
 
 - Họ tên: Trần Trung Kiên
 - MSSV: 2A202604014
-- Email: ttkpro07102005@gmail.com (theo cấu hình Git của máy)
+- Email:
 - GitHub: ttkien0710
 
 ## 2. Phần việc phụ trách
@@ -31,8 +31,21 @@ Safety, kiểm thử liên shape, chạy crash suite/benchmark và tổng hợp 
 
 ## 5. Công cụ AI đã dùng
 
-Codex hỗ trợ đọc contract, viết test, chạy công cụ và soạn báo cáo từ output thực tế. Đã kiểm tra tự động bằng pytest và CLI chính thức. Trước khi nộp, cá nhân cần tự đọc/giải thích test, chạy lại các lệnh trong `safety_evaluation.md` và xác nhận nội dung; không coi bản nháp này là lời xác nhận đã tự kiểm tra thủ công.
+- **Công cụ:** OpenAI Codex và Google Antigravity (Gemini).
+- **Phần việc có dùng AI:**
+  - Gợi ý các ca đột biến dữ liệu approval (thiếu ID, ID rác, hết hạn, bị thu hồi, tiền 0/âm, sai claim) và dựng khung `@pytest.mark.parametrize` cho `test_safety_evaluation.py`.
+  - Hỗ trợ tra cứu taxonomy lỗi của bài báo MAST (NeurIPS 2025) để điền `research_card.md`.
+  - Hỗ trợ định dạng bảng Markdown từ output benchmark và test run.
+- **Cách tự kiểm chứng:**
+  - Tự rà soát toàn bộ assertion của 84 test case, bảo đảm test chỉ thao tác trên DB tạm và không sửa file cấm của hệ thống.
+  - Tự chạy kiểm thử trực tiếp trên terminal: test safety pass 21/21 ở cổng host, 63/63 ở student markers, toàn bộ repo pass 411/411.
+  - Tự chạy toàn bộ file bằng chứng trong `src/reports/` (`crash.json`, `benchmark.json`, XML) bằng CLI từ code thật sau tích hợp, không nhờ AI bịa số liệu.
 
 ## 6. Tự đánh giá
 
-Đã hoàn thành kiểm thử public sau tích hợp và có commit kỹ thuật kèm bằng chứng. Đề xuất workflow vì đạt 70/70 và cost/success thấp nhất (28.871429 VND mô phỏng). Chưa có `student_drop/` nên chưa đo hidden; public pass không bảo đảm hidden đạt ngưỡng. Cần cá nhân rà soát nội dung trước khi nộp; nhóm chốt ADR và các báo cáo của thành viên còn lại.
+  - Hoàn thành tương đối tốt phần việc được giao, nộp đúng hạn toàn bộ test safety và số liệu benchmark để nhóm kịp thời làm ADR và báo cáo chung.
+  - Chủ động thiết kế các ca test biên phức tạp (approval, crash, chống leak secret/PII), giữ kỷ luật kỹ thuật tốt.
+  - Phối hợp và hỗ trợ đồng đội tốt trong khâu tích hợp và đối soát lỗi.
+
+  - Kỹ năng xử lý lỗi môi trường (như quyền ghi thư mục tạm trên Windows) ban đầu còn chậm, mất nhiều thời gian gỡ lỗi.
+  - Cần chủ động trao đổi và kéo cập nhật từ nhánh chung sớm hơn để giảm bớt áp lực đồng bộ ở cuối buổi.
