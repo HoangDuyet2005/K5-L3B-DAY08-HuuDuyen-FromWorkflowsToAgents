@@ -2,17 +2,19 @@
 
 ## Thông tin nhóm
 
-- Tên nhóm:
-- Lớp: L3A
-- Repo nhóm: `K5-L3A-DAY08-TenNhom-FromWorkflowsToAgents` (xem [SUBMISSION.md](SUBMISSION.md))
-- URL repo, nhánh nộp, commit chốt:
+- Tên nhóm: HuuDuyen
+- Lớp: L3B
+- Repo nhóm: `K5-L3B-DAY08-HuuDuyen-FromWorkflowsToAgents` (xem [SUBMISSION.md](SUBMISSION.md))
+- URL repo, nhánh nộp, commit chốt: https://github.com/HoangDuyet2005/K5-L3B-DAY08-HuuDuyen-FromWorkflowsToAgents, nhánh `main`, commit chốt điền ở CP5
 
 ## Thành viên
 
 | STT | Họ tên | MSSV | Email | GitHub | Vai trò |
 | --: | ------ | ---- | ----- | ------ | ------- |
-|   1 |        |      |       |        |         |
-|   2 |        |      |       |        |         |
+|   1 | Hoàng Thế Duyệt | 2A202603980 |  | HoangDuyet2005 | Điều phối/tích hợp; Shape A `workflow.py`; ADR và báo cáo nhóm |
+|   2 | Nguyễn Minh Triết | 2A202603995 |  | minhtriet061203 | Shape B `single.py` (ReAct, tối đa 8 bước) |
+|   3 | Lã Quốc Nghị | 2A202603947 |  | quocnghidev | Shape C `orchestrator.py`, handoff và trace |
+|   4 | Trần Trung Kiên | 2A202604014 |  | ttkien0710 | Safety, kiểm thử liên shape, crash suite và benchmark |
 
 Gợi ý chia vai:
 
