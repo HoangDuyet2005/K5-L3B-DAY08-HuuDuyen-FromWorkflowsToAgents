@@ -63,7 +63,19 @@ Mô tả ba shape nhóm viết (workflow, single, orchestrator): mỗi shape đ�
 
 ### Shape B — `single` (`src/lab8/shapes/single.py`)
 
-...
+- **Luồng thực thi:**
+  1. Đọc claim qua `get_claim_view(conn, claim_id)`. Không tìm thấy claim → `status="failed"` (`error_reason="unknown_claim"`); thiếu `order_id` → `status="needs_info"`, không vào vòng lặp.
+  2. Chạy vòng ReAct bằng `lab8.runtime.run_react(..., max_steps=8, worker=True)`. Hàm `decide` chọn tool đọc theo thứ tự `lookup_order` → `compute_compensation`, rồi trả `final`. Mỗi bước có một lời gọi MockLLM (`purpose="react"`) được cộng vào `Budget`, để chi phí so sánh được với các shape khác.
+  3. `lookup_order` không thấy đơn hoặc đơn của principal khác → `decide` trả `final` với `status="escalated"`.
+  4. Sau vòng lặp, quote lấy từ kết quả `compute_compensation` trên order row. Quote bằng 0 → `status="denied"`, không gọi host.
+  5. Quote dương → **code của shape**, không phải model, gọi `durability.issue_refund(conn, claim_id, proposal, crash_at=crash_at)` với **quote đầy đủ**. Host từ chối → `denied`, conflict → `failed`, thành công → `resolved`. Gặp `InjectedCrash` thì ghi event `crash`, ghi trace rồi ném lại. Mọi nhánh kết thúc qua `common.finish(...)`.
+- **Ranh giới Code / Model:**
+  - Model chỉ được chọn tool đọc. `run_react` chạy với `worker=True`, nên mọi tool ngoài danh sách đọc bị `ToolRejected`; write tool (`issue_refund`, `append_audit`) bị chặn ở `dispatch` bất kể cờ.
+  - Số tiền do `compute_compensation` tính từ order row, không lấy số ngày trễ trong ticket.
+  - Vòng lặp dừng cứng ở 8 bước; hết bước mà chưa có quote thì trả `failed`.
+- **Trace:** các event `claim` (`claim_id`, `has_order_id`), `tool` (tên tool, `visible`/`reason` hoặc số tiền quote và `clause_ids`), `react` (lý do dừng vòng lặp), `decision`, và `crash` khi có. Cố ý **không** ghi ticket, claim row thô (có `parent_secret`, header) và order row thô (SĐT, địa chỉ, tên hàng, ghi chú nội bộ).
+- **Nhận xét thiết kế:** `decide` đi theo thứ tự tool cố định, nên trên bộ đo của lab single cư xử gần như workflow, chỉ tốn thêm các lời gọi model trong vòng lặp (cost/success 29.87 so với 28.87 của workflow). Mức tự chủ thật của shape này chỉ đo được khi thay MockLLM bằng một model được tự chọn tool.
+- **Kiểm thử bổ sung:** `src/tests/test_single_shape.py` (3 test): C-002 bị từ chối ở cả 5 seed dù ticket ghi trễ 5 ngày; chạy lại C-001 với seed khác vẫn một dòng ledger 35.000; trace đúng contract, không chứa secret, PII hay ticket, và số lời gọi model không quá 8 + 1.
 
 ### Shape C — `orchestrator` (`src/lab8/shapes/orchestrator.py`)
 
@@ -92,7 +104,7 @@ Mô tả ba shape nhóm viết (workflow, single, orchestrator): mỗi shape đ�
 | orchestrator | 70/70 | 1.000000 | 1.000000 | 1.000000–1.000000 | 0.000000000 | 57.190000 | 3.714286/4 |
 | swarm | 69/70 | 0.985714 | 0.928571 | 0.928571–1.000000 | 0.000816327 | 49.566957 | 2.800000/3 |
 
-Toàn bộ 411 test pass: host 100, student 311. Crash suite chính thức 20/20; 12 ca bổ sung qua `run_claim` kiểm ba điểm crash trên bốn shape đều pass. Không phát hiện secret/PII hoặc approval bypass trong các ca safety đã kiểm; chưa có số liệu hidden.
+Tại thời điểm tích hợp (commit `0f8b7e6`): host 100 test, student 311 test, tổng 411 pass. Hiện tại, sau khi thêm test bonus B3: host 161 test (gồm 61 test bonus), student 311 test, tổng 472 pass. Crash suite chính thức 20/20; 12 ca bổ sung qua `run_claim` kiểm ba điểm crash trên bốn shape đều pass. Không phát hiện secret/PII hoặc approval bypass trong các ca safety đã kiểm; pass rate hidden chính thức do giảng viên chấm; số tự kiểm trên gói coach phát được nêu trong `report/team/decision_adr.md`.
 Đề xuất workflow vì cùng pass 70/70 với single/orchestrator và cost/success thấp nhất. Người điều phối rà soát/chốt `decision_adr.md`. Swarm fail C-002 seed 55, run id `R-swarm-C-002-s55`. Research card R2 và 20 test ablation xác nhận lỗi tin số ngày trong ticket. Chi tiết và lệnh tái lập: `safety_evaluation.md`.
 
 ## 5. Khó khăn và cách xử lý
@@ -107,10 +119,30 @@ Chi tiết đóng góp của từng thành viên nằm trong `TEAM.md` (bảng �
 
 ## 7. Hạn chế và hướng cải thiện
 
-MockLLM không phải model sản xuất; latency là `unavailable`. Nêu thêm giới hạn của nhóm và điều kiện làm kết luận thay đổi.
+MockLLM không phải model sản xuất; latency là `unavailable`; chi phí là giá mô phỏng trong `src/config/pricing.yaml`, không phải hóa đơn API.
 
-...
+**Giới hạn của kết quả.**
+
+- **Variance bằng 0 là do cách cài, không phải bằng chứng model ổn định.** Ở cả ba shape nhóm viết, thứ tự gọi tool và số tiền do code quyết; lời gọi MockLLM chỉ tính chi phí và soạn chữ. Vì vậy kết quả không thể dao động theo seed. Với một model thật được quyền chọn tool, pass rate và variance của `single` và `orchestrator` phải đo lại.
+- **Bộ public nhỏ.** 14 claim × 5 seed = 70 trial mỗi shape. Ba shape cùng đạt 70/70 nên bộ này không phân biệt được chúng về độ đúng; khác biệt đo được chỉ nằm ở chi phí và số bước.
+- **So sánh chi phí chưa tách riêng topology.** Các shape khác nhau cả số lần gọi model lẫn số lần gọi tool, nên không kết luận chênh lệch cost/success chỉ do kiến trúc.
+- **Crash suite chính thức chỉ kiểm host và swarm.** Crash trên ba shape của nhóm được kiểm qua T12 và các ca bổ sung trong `src/tests/test_safety_evaluation.py`, không phải qua `src/reports/crash.json`.
+- **Môi trường.** Số liệu trong `src/reports/` được sinh trên Python 3.14.6 (xem mục 5). Người điều phối đã chạy lại bộ test và hai lệnh sinh report trên Python 3.11.9, nằm trong dải lab hỗ trợ: host 100 passed, student 311 passed, crash 20/20, pass rate và pass^5 của bốn shape trùng với file đã nộp.
+
+**Hướng cải thiện.**
+
+- `single.py` và `orchestrator.py` chưa bắt lỗi ngoài dự kiến; nếu gặp dữ liệu lạ, `run_claim` ném exception và trial bị chấm fail. Nên bọc như `workflow.py`: trả `failed` kèm trace, và vẫn để `InjectedCrash` đi ra ngoài.
+- Thêm claim đối kháng tự viết (ticket nói quá, nói thiếu, nhiều con số trong một câu) với nhãn viết tay, để bộ đo phân biệt được ba shape.
+
+**Điều kiện làm quyết định chọn `workflow` thay đổi.**
+
+- Nghiệp vụ cần điều tra linh hoạt: số bước và nguồn dữ liệu phải đọc thay đổi theo từng claim, không cố định được trong code.
+- Ticket mơ hồ đến mức cần model quyết định có hỏi thêm khách hay không, và việc đó làm tăng tỉ lệ xử lý đúng.
+- `single` hoặc `orchestrator` đạt pass rate cao hơn `workflow` trên một bộ đo lớn hơn, với mức tăng đủ bù phần chi phí cao hơn (orchestrator hiện đắt gấp khoảng hai lần trên bộ public).
 
 ## 8. Tài liệu tham khảo
 
-...
+- Tài liệu của lab trong repo: `README.md`, `RULES.md`, `CHECKPOINTS.md`, `RUBRIC.md`, `docs/business_rules.md`, `docs/contracts.md`, `docs/architecture.md`, `docs/metrics.md`.
+- Code tham chiếu trong starter: `src/lab8/shapes/swarm_reference.py`, `src/lab8/durability.py`, `src/lab8/handoff.py`, `src/lab8/runtime.py`.
+- Cemri và cộng sự (2025), *Why Do Multi-Agent LLM Systems Fail?* (MAST) — nguồn của phiếu nghiên cứu R2; thông tin trích dẫn đầy đủ trong `report/team/research_card.md`.
+- Bài giảng N8 "From Workflows to Agents" của khóa AI20K K5.

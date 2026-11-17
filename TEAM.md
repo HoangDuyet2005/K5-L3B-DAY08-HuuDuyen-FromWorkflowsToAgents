@@ -30,6 +30,7 @@ Gợi ý chia vai:
 | Trần Trung Kiên | Safety/evaluation | `636b958` — test liên shape và bằng chứng sau tích hợp | `src/tests/test_safety_evaluation.py` — 84 test: approval, crash, trace/stdout, cap theo đơn, ticket ablation |
 | Lã Quốc Nghị | Orchestrator/handoff | `90141f7` — Shape C orchestrator | `src/tests/test_handoff_secret.py::test_orchestrator_sanitizes_handoff_and_protects_trace`, `test_orchestrator_passes_full_quote_and_survives_crash` |
 | Nguyễn Minh Triết | Single ReAct (Shape B) | 6e60031 Shape B single: ReAct read-only, host-only refund | tests/test_single_shape.py (3 test) |
+| Hoàng Thế Duyệt | Workflow/tích hợp; bonus B3 | `fdf6b06` — shape A `workflow.py` và test; `0f8b7e6` — tích hợp ba shape vào `main`; bonus B3 `src/bonus/` | `src/tests/test_workflow_shape.py` — 20 test: claim không tồn tại, store hỏng, trace không chứa ticket/secret, ticket không ghi đè order row, model chỉ soạn chữ; `src/tests/test_bonus_swarm_verified.py` — 61 test cho bonus B3 |
 
 ## Cá nhân
 

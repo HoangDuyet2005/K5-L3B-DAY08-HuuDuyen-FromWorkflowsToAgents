@@ -11,7 +11,7 @@
 - Crash safety: 20/20 suite chính thức (src/reports/crash.json); cả 3 điểm crash qua run_claim của workflow pass và resume hai lần không duplicate (src/reports/integrated_tests.xml)
 - Secret leak / approval bypass: không phát hiện trong các ca public/safety đã kiểm; chưa có số đếm hidden chính thức
 
-Bản đề xuất dựa trên đánh giá do Kiên chuẩn bị sau tích hợp. Người điều phối rà soát/chốt trước khi nộp; không coi đây là xác nhận đã được cả nhóm phê duyệt.
+Bản đề xuất dựa trên đánh giá do Kiên chuẩn bị sau tích hợp. Người điều phối (Hoàng Thế Duyệt) đã rà soát và cả nhóm thống nhất chọn `workflow`.
 
 Ví dụ một dòng đã điền: `- Shape chọn: workflow`, `- Crash safety: 20/20 (src/reports/crash.json)`.
 
@@ -29,4 +29,4 @@ Workflow ghi claim (found/has_order_id), lookup_order đã lọc, quote, issue_r
 
 ## Giới hạn
 
-MockLLM không phải model sản xuất; chi phí mô phỏng, latency `unavailable`. Public pass không bảo đảm hidden pass rate ≥0.75. Chưa có student_drop/hidden labels nên chưa kết luận đạt cổng hidden. Môi trường kiểm thử là Python 3.14.6; lab công bố hỗ trợ 3.11–3.13. Không sửa JSON để đạt ngưỡng.
+MockLLM không phải model sản xuất; chi phí mô phỏng, latency `unavailable`. Public pass không bảo đảm hidden pass rate ≥0.75. Coach phát gói hidden cho nhóm để tự kiểm trước demo. Kết quả tự chạy trên gói này: workflow, single, orchestrator đều 1.000; swarm 0.970 (40 claim × 5 seed). Đây chỉ là tự kiểm, không thay thế kết quả chính thức; pass rate hidden chính thức do grader của giảng viên chấm, không có số nào trong repo. Môi trường kiểm thử là Python 3.14.6; lab công bố hỗ trợ 3.11–3.13. Không sửa JSON để đạt ngưỡng.
