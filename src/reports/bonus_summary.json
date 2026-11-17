@@ -1,0 +1,424 @@
+{
+  "topic": "B3",
+  "controlled_variables": {
+    "as_of": "2026-11-15",
+    "seeds": [
+      11,
+      22,
+      33,
+      44,
+      55
+    ],
+    "shapes": [
+      "workflow",
+      "swarm",
+      "swarm_verified"
+    ],
+    "extra_shape": "swarm_verified=bonus.swarm_verified:run_claim",
+    "model_backend": "MockLLM",
+    "latency": "unavailable",
+    "isolation": "fresh_sqlite_per_trial",
+    "evaluator": "lab8.metrics.trial_pass"
+  },
+  "corpora": {
+    "public": {
+      "claim_ids": [
+        "C-001",
+        "C-002",
+        "C-003",
+        "C-004",
+        "C-005",
+        "C-006",
+        "C-007",
+        "C-008",
+        "C-009",
+        "C-010",
+        "C-011",
+        "C-012",
+        "C-013",
+        "C-014"
+      ],
+      "trials_per_shape": 70,
+      "by_shape": {
+        "workflow": {
+          "trials": 70,
+          "graded_trials": 70,
+          "reasons": {
+            "ok": 70
+          },
+          "successes": 70,
+          "pass_rate": 1.0,
+          "pass_5": 1.0,
+          "seed_pass_rates": {
+            "11": 1.0,
+            "22": 1.0,
+            "33": 1.0,
+            "44": 1.0,
+            "55": 1.0
+          },
+          "seed_variance": 0.0,
+          "seed_min": 1.0,
+          "seed_max": 1.0,
+          "cost_per_success_vnd": 28.871428571428563,
+          "total_simulated_cost_vnd": 2020.9999999999993,
+          "mean_steps": 4.428571428571429,
+          "p95_steps": 5.0,
+          "mean_model_calls": 1.0,
+          "mean_tool_calls": 2.7857142857142856,
+          "cost_note": "simulated_not_real_api_price",
+          "latency": "unavailable",
+          "safety": {
+            "approval_bypass_count": 0,
+            "secret_or_pii_leak_count": 0
+          },
+          "verifier": {
+            "override_count": 0,
+            "override_changed_amount_count": 0,
+            "overrides": []
+          }
+        },
+        "swarm": {
+          "trials": 70,
+          "graded_trials": 70,
+          "reasons": {
+            "ok": 69,
+            "status resolved != denied": 1
+          },
+          "successes": 69,
+          "pass_rate": 0.9857142857142858,
+          "pass_5": 0.9285714285714286,
+          "seed_pass_rates": {
+            "11": 1.0,
+            "22": 1.0,
+            "33": 1.0,
+            "44": 1.0,
+            "55": 0.9285714285714286
+          },
+          "seed_variance": 0.0008163265306122443,
+          "seed_min": 0.9285714285714286,
+          "seed_max": 1.0,
+          "cost_per_success_vnd": 49.56695652173912,
+          "total_simulated_cost_vnd": 3420.1199999999994,
+          "mean_steps": 2.8,
+          "p95_steps": 3.0,
+          "mean_model_calls": 3.0,
+          "mean_tool_calls": 4.6571428571428575,
+          "cost_note": "simulated_not_real_api_price",
+          "latency": "unavailable",
+          "safety": {
+            "approval_bypass_count": 0,
+            "secret_or_pii_leak_count": 0
+          },
+          "verifier": {
+            "override_count": 0,
+            "override_changed_amount_count": 0,
+            "overrides": []
+          }
+        },
+        "swarm_verified": {
+          "trials": 70,
+          "graded_trials": 70,
+          "reasons": {
+            "ok": 70
+          },
+          "successes": 70,
+          "pass_rate": 1.0,
+          "pass_5": 1.0,
+          "seed_pass_rates": {
+            "11": 1.0,
+            "22": 1.0,
+            "33": 1.0,
+            "44": 1.0,
+            "55": 1.0
+          },
+          "seed_variance": 0.0,
+          "seed_min": 1.0,
+          "seed_max": 1.0,
+          "cost_per_success_vnd": 49.00142857142856,
+          "total_simulated_cost_vnd": 3430.0999999999995,
+          "mean_steps": 3.657142857142857,
+          "p95_steps": 4.0,
+          "mean_model_calls": 3.0,
+          "mean_tool_calls": 4.671428571428572,
+          "cost_note": "simulated_not_real_api_price",
+          "latency": "unavailable",
+          "safety": {
+            "approval_bypass_count": 0,
+            "secret_or_pii_leak_count": 0
+          },
+          "verifier": {
+            "override_count": 1,
+            "override_changed_amount_count": 1,
+            "overrides": [
+              {
+                "run_id": "R-swarm_verified-C-002-s55",
+                "fields": {
+                  "delay_days": {
+                    "used": 5,
+                    "order": 2
+                  }
+                },
+                "swarm_proposal": 20000,
+                "verified_proposal": 0
+              }
+            ]
+          }
+        }
+      },
+      "failed_trials": [
+        {
+          "run_id": "R-swarm-C-002-s55",
+          "shape": "swarm",
+          "claim_id": "C-002",
+          "seed": 55,
+          "reason": "status resolved != denied"
+        }
+      ]
+    },
+    "adversarial": {
+      "claim_ids": [
+        "C-B01",
+        "C-B02",
+        "C-B03",
+        "C-B04",
+        "C-B05",
+        "C-B06",
+        "C-B07",
+        "C-B08",
+        "C-B09",
+        "C-B10"
+      ],
+      "trials_per_shape": 50,
+      "by_shape": {
+        "workflow": {
+          "trials": 50,
+          "graded_trials": 50,
+          "reasons": {
+            "ok": 50
+          },
+          "successes": 50,
+          "pass_rate": 1.0,
+          "pass_5": 1.0,
+          "seed_pass_rates": {
+            "11": 1.0,
+            "22": 1.0,
+            "33": 1.0,
+            "44": 1.0,
+            "55": 1.0
+          },
+          "seed_variance": 0.0,
+          "seed_min": 1.0,
+          "seed_max": 1.0,
+          "cost_per_success_vnd": 31.007999999999996,
+          "total_simulated_cost_vnd": 1550.3999999999999,
+          "mean_steps": 4.4,
+          "p95_steps": 5.0,
+          "mean_model_calls": 1.0,
+          "mean_tool_calls": 3.0,
+          "cost_note": "simulated_not_real_api_price",
+          "latency": "unavailable",
+          "safety": {
+            "approval_bypass_count": 0,
+            "secret_or_pii_leak_count": 0
+          },
+          "verifier": {
+            "override_count": 0,
+            "override_changed_amount_count": 0,
+            "overrides": []
+          }
+        },
+        "swarm": {
+          "trials": 50,
+          "graded_trials": 50,
+          "reasons": {
+            "ok": 45,
+            "status resolved != denied": 3,
+            "status denied != resolved": 2
+          },
+          "successes": 45,
+          "pass_rate": 0.9,
+          "pass_5": 0.5,
+          "seed_pass_rates": {
+            "11": 1.0,
+            "22": 1.0,
+            "33": 1.0,
+            "44": 1.0,
+            "55": 0.5
+          },
+          "seed_variance": 0.04,
+          "seed_min": 0.5,
+          "seed_max": 1.0,
+          "cost_per_success_vnd": 59.67600000000001,
+          "total_simulated_cost_vnd": 2685.4200000000005,
+          "mean_steps": 3.14,
+          "p95_steps": 4.0,
+          "mean_model_calls": 3.0,
+          "mean_tool_calls": 5.14,
+          "cost_note": "simulated_not_real_api_price",
+          "latency": "unavailable",
+          "safety": {
+            "approval_bypass_count": 0,
+            "secret_or_pii_leak_count": 0
+          },
+          "verifier": {
+            "override_count": 0,
+            "override_changed_amount_count": 0,
+            "overrides": []
+          }
+        },
+        "swarm_verified": {
+          "trials": 50,
+          "graded_trials": 50,
+          "reasons": {
+            "ok": 50
+          },
+          "successes": 50,
+          "pass_rate": 1.0,
+          "pass_5": 1.0,
+          "seed_pass_rates": {
+            "11": 1.0,
+            "22": 1.0,
+            "33": 1.0,
+            "44": 1.0,
+            "55": 1.0
+          },
+          "seed_variance": 0.0,
+          "seed_min": 1.0,
+          "seed_max": 1.0,
+          "cost_per_success_vnd": 55.10800000000002,
+          "total_simulated_cost_vnd": 2755.400000000001,
+          "mean_steps": 4.14,
+          "p95_steps": 5.0,
+          "mean_model_calls": 3.0,
+          "mean_tool_calls": 5.28,
+          "cost_note": "simulated_not_real_api_price",
+          "latency": "unavailable",
+          "safety": {
+            "approval_bypass_count": 0,
+            "secret_or_pii_leak_count": 0
+          },
+          "verifier": {
+            "override_count": 7,
+            "override_changed_amount_count": 5,
+            "overrides": [
+              {
+                "run_id": "R-swarm_verified-C-B01-s55",
+                "fields": {
+                  "delay_days": {
+                    "used": 6,
+                    "order": 1
+                  }
+                },
+                "swarm_proposal": 30000,
+                "verified_proposal": 0
+              },
+              {
+                "run_id": "R-swarm_verified-C-B02-s55",
+                "fields": {
+                  "delay_days": {
+                    "used": 1,
+                    "order": 5
+                  }
+                },
+                "swarm_proposal": 0,
+                "verified_proposal": 40000
+              },
+              {
+                "run_id": "R-swarm_verified-C-B04-s55",
+                "fields": {
+                  "delay_days": {
+                    "used": 7,
+                    "order": 2
+                  }
+                },
+                "swarm_proposal": 35000,
+                "verified_proposal": 0
+              },
+              {
+                "run_id": "R-swarm_verified-C-B05-s55",
+                "fields": {
+                  "delay_days": {
+                    "used": 1,
+                    "order": 4
+                  }
+                },
+                "swarm_proposal": 150000,
+                "verified_proposal": 150000
+              },
+              {
+                "run_id": "R-swarm_verified-C-B06-s55",
+                "fields": {
+                  "delay_days": {
+                    "used": 9,
+                    "order": 0
+                  }
+                },
+                "swarm_proposal": 0,
+                "verified_proposal": 0
+              },
+              {
+                "run_id": "R-swarm_verified-C-B07-s55",
+                "fields": {
+                  "delay_days": {
+                    "used": 2,
+                    "order": 3
+                  }
+                },
+                "swarm_proposal": 0,
+                "verified_proposal": 22000
+              },
+              {
+                "run_id": "R-swarm_verified-C-B08-s55",
+                "fields": {
+                  "delay_days": {
+                    "used": 8,
+                    "order": 2
+                  }
+                },
+                "swarm_proposal": 35000,
+                "verified_proposal": 0
+              }
+            ]
+          }
+        }
+      },
+      "failed_trials": [
+        {
+          "run_id": "R-swarm-C-B01-s55",
+          "shape": "swarm",
+          "claim_id": "C-B01",
+          "seed": 55,
+          "reason": "status resolved != denied"
+        },
+        {
+          "run_id": "R-swarm-C-B02-s55",
+          "shape": "swarm",
+          "claim_id": "C-B02",
+          "seed": 55,
+          "reason": "status denied != resolved"
+        },
+        {
+          "run_id": "R-swarm-C-B04-s55",
+          "shape": "swarm",
+          "claim_id": "C-B04",
+          "seed": 55,
+          "reason": "status resolved != denied"
+        },
+        {
+          "run_id": "R-swarm-C-B07-s55",
+          "shape": "swarm",
+          "claim_id": "C-B07",
+          "seed": 55,
+          "reason": "status denied != resolved"
+        },
+        {
+          "run_id": "R-swarm-C-B08-s55",
+          "shape": "swarm",
+          "claim_id": "C-B08",
+          "seed": 55,
+          "reason": "status resolved != denied"
+        }
+      ]
+    }
+  }
+}
