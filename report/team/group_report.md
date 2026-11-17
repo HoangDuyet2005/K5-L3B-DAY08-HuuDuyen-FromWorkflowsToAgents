@@ -44,17 +44,23 @@ Mô tả ba shape nhóm viết (workflow, single, orchestrator): mỗi shape đ�
 
 ## 4. Kết quả
 
-Bảng so sánh 4 shape trên bộ public (từ `src/reports/benchmark.json`): pass rate, pass^5, seed min–max, variance, cost/success, mean/p95 steps. Kèm crash safety (`src/reports/crash.json`) và, nếu có, kết quả tự kiểm trên `student_drop/`.
+Đánh giá sau tích hợp tại commit `636b958` (Kiên tổng hợp). Nguồn: `src/reports/benchmark.json`.
 
-...
+| Shape | Pass | Pass rate | Pass^5 | Seed min–max | Variance | Cost/success (VND mô phỏng) | Mean/p95 steps |
+| --- | ---: | ---: | ---: | --- | ---: | ---: | --- |
+| workflow | 70/70 | 1.000000 | 1.000000 | 1.000000–1.000000 | 0.000000000 | 28.871429 | 4.428571/5 |
+| single | 70/70 | 1.000000 | 1.000000 | 1.000000–1.000000 | 0.000000000 | 29.872857 | 4.714286/5 |
+| orchestrator | 70/70 | 1.000000 | 1.000000 | 1.000000–1.000000 | 0.000000000 | 57.190000 | 3.714286/4 |
+| swarm | 69/70 | 0.985714 | 0.928571 | 0.928571–1.000000 | 0.000816327 | 49.566957 | 2.800000/3 |
 
-Quyết định kiến trúc và lý do: xem `report/team/decision_adr.md`. Phiếu nghiên cứu và ablation: xem `report/team/research_card.md`.
+Toàn bộ 411 test pass: host 100, student 311. Crash suite chính thức 20/20; 12 ca bổ sung qua `run_claim` kiểm ba điểm crash trên bốn shape đều pass. Không phát hiện secret/PII hoặc approval bypass trong các ca safety đã kiểm; chưa có số liệu hidden.
+Đề xuất workflow vì cùng pass 70/70 với single/orchestrator và cost/success thấp nhất. Người điều phối rà soát/chốt `decision_adr.md`. Swarm fail C-002 seed 55, run id `R-swarm-C-002-s55`. Research card R2 và 20 test ablation xác nhận lỗi tin số ngày trong ticket. Chi tiết và lệnh tái lập: `safety_evaluation.md`.
 
 ## 5. Khó khăn và cách xử lý
 
-Lỗi gặp phải (kèm lệnh, output hoặc ảnh chụp) và cách nhóm xử lý.
-
-...
+- Windows báo `PermissionError [WinError 5] ... Temp/pytest-of-Admin`; chuyển thư mục tạm pytest bằng `--basetemp=.venv/pytest-host-current` hoặc thư mục test riêng tương ứng.
+- Máy ban đầu ở `034c6c4`, chậm 7 commit. Đã fetch và fast-forward đến `0f8b7e6`, có đủ ba shape; giữ lại test và báo cáo của Kiên. Kết quả baseline 0/70 của stub đã được thay bằng lần chạy sau tích hợp.
+- Python trên máy là 3.14.6; bộ kiểm tra chạy thành công, nhưng lab công bố hỗ trợ 3.11–3.13 nên cần xác nhận lại môi trường đó nếu dùng để chấm.
 
 ## 6. Tổng hợp đóng góp
 

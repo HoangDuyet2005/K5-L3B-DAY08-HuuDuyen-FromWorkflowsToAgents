@@ -14,7 +14,7 @@
 |   1 | Hoàng Thế Duyệt | 2A202603980 |  | HoangDuyet2005 | Điều phối/tích hợp; Shape A `workflow.py`; ADR và báo cáo nhóm |
 |   2 | Nguyễn Minh Triết | 2A202603995 |  | minhtriet061203 | Shape B `single.py` (ReAct, tối đa 8 bước) |
 |   3 | Lã Quốc Nghị | 2A202603947 |  | quocnghidev | Shape C `orchestrator.py`, handoff và trace |
-|   4 | Trần Trung Kiên | 2A202604014 |  | ttkien0710 | Safety, kiểm thử liên shape, crash suite và benchmark |
+|   4 | Trần Trung Kiên | 2A202604014 | ttkpro07102005@gmail.com | ttkien0710 | Safety, kiểm thử liên shape, crash suite và benchmark |
 
 Gợi ý chia vai:
 
@@ -27,7 +27,7 @@ Gợi ý chia vai:
 
 | Người | Vai | Commit | Test đã thêm hoặc sửa |
 | --- | --- | --- | --- |
-| | | | |
+| Trần Trung Kiên | Safety/evaluation | `636b958` — test liên shape và bằng chứng sau tích hợp | `src/tests/test_safety_evaluation.py` — 84 test: approval, crash, trace/stdout, cap theo đơn, ticket ablation |
 
 ## Cá nhân
 
