@@ -1,0 +1,16 @@
+== shapes ==
+[ OK ] shape workflow: format đúng, 12/12 claim public pass ở seed 11
+[ OK ] shape single: format đúng, 12/12 claim public pass ở seed 11
+[ OK ] shape orchestrator: format đúng, 12/12 claim public pass ở seed 11
+== reports ==
+[ OK ] reports/benchmark.json: 4 shape x 14 claim x 5 seed
+[ OK ] reports/crash.json: 20/20
+== docs ==
+[ OK ] report/team/decision_adr.md: Shape chọn = workflow
+[ OK ] TEAM.md: bảng đóng góp có 1 thành viên
+[ OK ] report/team/research_card.md: đã điền đủ
+== git ==
+[WARN] còn thay đổi chưa commit; commit xong rồi mới ghi hash vào report/team/decision_adr.md
+       commit hash: 636b958
+
+0 FAIL, 1 WARN
