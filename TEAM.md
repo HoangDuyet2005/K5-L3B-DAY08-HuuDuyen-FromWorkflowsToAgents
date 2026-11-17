@@ -29,6 +29,7 @@ Gợi ý chia vai:
 | --- | --- | --- | --- |
 | Trần Trung Kiên | Safety/evaluation | `636b958` — test liên shape và bằng chứng sau tích hợp | `src/tests/test_safety_evaluation.py` — 84 test: approval, crash, trace/stdout, cap theo đơn, ticket ablation |
 | Lã Quốc Nghị | Orchestrator/handoff | `90141f7` — Shape C orchestrator | `src/tests/test_handoff_secret.py::test_orchestrator_sanitizes_handoff_and_protects_trace`, `test_orchestrator_passes_full_quote_and_survives_crash` |
+| Nguyễn Minh Triết | Single ReAct (Shape B) | 6e60031 Shape B single: ReAct read-only, host-only refund | tests/test_single_shape.py (3 test) |
 
 ## Cá nhân
 
@@ -58,6 +59,24 @@ Sao chép mục dưới đây cho từng thành viên.
 
 - Commit `90141f7` trên nhánh `task/quocnghidev`; `.venv/bin/python -m pytest -q` (`79 passed`) và `.venv/bin/python -m pytest -q -m student -o addopts= -k orchestrator` (`62 passed`).
 
+## 2A202603995_NguyenMinhTriet
+
+### Phần việc phụ trách
+
+- Shape B single ReAct: `src/lab8/shapes/single.py`, test `src/tests/test_single_shape.py`.
+
+### Đóng góp cụ thể
+
+- `run_react` tối đa 8 bước, `worker=True`; agent chỉ chọn tool đọc (`lookup_order` → `compute_compensation`), quote tính từ order row, không từ ticket.
+- Sau vòng lặp, shape gọi `durability.issue_refund` với quote đầy đủ, truyền `crash_at`, không nuốt `InjectedCrash`; mọi nhánh trả qua `finish()`.
+- Trace chỉ ghi id, cờ, tên tool, quote, clause và quyết định; không ghi ticket, claim row, order row.
+- 3 test: C-002 denied ở cả 5 seed; chạy lại C-001 vẫn 1 dòng ledger; trace sạch và ≤ 9 model call.
+
+### Bằng chứng
+
+- Commit `6e60031`.
+- Ma trận student shape single: 62 passed; `tests/test_single_shape.py`: 3 passed; cổng host xanh.
+- Báo cáo chi tiết: `report/team/2A202603995_NguyenMinhTriet.md`.
 ## MSSV_HoTen
 
 ### Phần việc phụ trách
